@@ -1,2 +1,2 @@
-# Vue.js-Trello
-trello 클론코딩
+# Vue.jsTrello
+트 클론코딩
