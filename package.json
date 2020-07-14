@@ -1,0 +1,22 @@
+{
+  "name": "vue.jstrello",
+  "version": "1.0.0",
+  "description": "트렐로 클론코딩",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/S-rim/Vue.jsTrello.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/S-rim/Vue.jsTrello/issues"
+  },
+  "homepage": "https://github.com/S-rim/Vue.jsTrello#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
