@@ -14,7 +14,7 @@ const request = {
           const {status} = response
           if (status === Unauthorized) return onUnauthorized()
           throw Error(response)
-        })
+        }) 
     },
     post(path, data) {
       return axios.post(`${domain + path}`, data)
@@ -68,3 +68,10 @@ export const auth = {
         .then(({data}) => data)
     }
   }
+
+export const card = {
+    create(title,listId, pos) {
+        return request.post ('/cards', {title,listId, pos})
+        .then(({data}) => data)
+    }
+}

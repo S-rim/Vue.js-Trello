@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <Navbar></Navbar>
-    <router-view></router-view>
+    <router-view class="container"></router-view>
   </div>
 </template>
 
@@ -49,7 +49,7 @@ html, body, #app
   line-height: 20px;  
   font-weight: 700;
   cursor: pointer;
-  width : 100%;
+  width : 40%;
 }
 
 .btn-success 

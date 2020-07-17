@@ -4,7 +4,7 @@
         
         <div class="boardList" ref="boardList">
             <div class="boardItem" v-for="bd in boards" :key="bd.id" :data-bgcolor="bd.bgColor" ref="boardItem">
-                <router-link :to="`/bd/${bd}`">
+                <router-link :to="`/b/${bd.id}`">
                 <div class="boardItemTitle">{{bd.title}}</div>
                 </router-link>
             </div>
@@ -22,7 +22,7 @@
 <script>
 import {board} from '../api'
 import AddBoard from './AddBoard.vue'
-import {mapState, mapMutations, mapActions} from 'vuex'
+import {mapState, mapMutations, mapActions, mapGetters} from 'vuex'
 
 export default {
     components : {AddBoard},
