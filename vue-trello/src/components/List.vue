@@ -1,33 +1,63 @@
 <template>
-    <div class="list">
-        <div class="listHeader">
-            <div class="listHeaderTitle">{{data.title}}</div>
-        </div>
-        <div class="cardList">
-            <CardItem v-for="card in data.cards" :key="card.id" :data="card"></CardItem>
-        </div>
-        <div v-if="isAddCard">
-            <AddCard :list-id="data.id" @close="isAddCard=false"></AddCard>
-        </div>
-        <div v-else>
-            <a href="" class="addCardBtn" @click.prevent="isAddCard=true">
-                + Add a card...
-            </a>
+  <div class="list">
+    <div class="listHeader">
+        <div class="listHeaderTitle">
+            {{data.title}}
         </div>
     </div>
+    <div class="cardList">
+        <card-item v-for="card in data.cards" :key="card.id" :data="card"></card-item>
+    </div>
+    <div v-if="isAddCard">
+        <add-card :list-id="data.list" @close="isAddCard=false"></add-card>
+    </div>
+    <div v-else>
+        <a class="addCardBtn" href="" @click.prevent="isAddCard=true">+ Add a card...</a>
+    </div>
+  </div>
 </template>
 
 <script>
+import {card} from '../api'
+import CardItem from './CardItem.vue'
 import AddCard from './AddCard'
-import CardItem from './CardItem'
 export default {
-    components : {AddCard, CardItem},
-    props : ['data'],
-    data() {
-        return{
-            isAddCard : false
-        }
+  components: {AddCard, CardItem},
+  props: [
+    'data'
+  ],
+  data() {
+    return {
+      inputCardTitle: '',
+      isAddCard: false
     }
+  },
+  computed: {
+    invalidInput() {
+      return !this.inputCardTitle.trim()
+    }
+  },
+  methods: {
+    onClickAddCard() {
+      this.isAddCard = true
+      setTimeout(_=> this.$refs.inputCardTitle.focus(), 1)
+    },
+    onCancelAddCard(){
+      this.isAddCard = false
+    },
+    onSubmitNewCard() {
+      if (this.invalidInput) return 
+      card.create(this.inputCardTitle, this.list.id).then(data => {
+        console.log(data)
+        this.$emit('doneAddCard')
+      }).catch(err => {
+        console.log(err)
+      }).finally(_=>{
+        this.inputCardTitle = ''
+        this.isAddCard = false
+      })
+    },
+  }
 }
 </script>
 

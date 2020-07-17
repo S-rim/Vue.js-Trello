@@ -1,6 +1,6 @@
 <template>
     <div class="addCard">
-        <form>
+        <form @submit.prevent="onSubmit">
             <input type="text" class="form-control" v-model="inputTitle" ref="inputText">
             <button class="btn btn-success" type="submit" :disabled="invalidInput">Add Card</button>
             <a class="cancelAddBtn" @click.prevent="$emit('close')" href="">&times;</a>
@@ -9,11 +9,12 @@
 </template>
 
 <script>
-import {mapActions} from 'vuex'
+import {mapState, mapMutations, mapActions} from 'vuex'
+
 export default {
-    props : [],
+    props : ['listId'],
     data() {
-        return {
+        return { 
             inputTitle : ''
         }
     },
@@ -30,11 +31,17 @@ export default {
             'ADD_CARD'
         ]),
         onSubmit() {
-            if(this.invalidInput) return
+            if (this.invalidInput) return 
             const {inputTitle, listId} = this
-            this.ADD_CARD({title : inputTitle, listId})
+            this.ADD_CARD({title: inputTitle, listId})
             .finally(() => this.inputTitle = '')
-        }
+        },
+        // setupClickOutside(el) {
+        //     document.querySelector('body').addEventListener('click', e => {
+        //         if(el.contains(e.target)) return
+        //         this.$emit('close')
+        //     })
+        // }
     }
 }
 </script>

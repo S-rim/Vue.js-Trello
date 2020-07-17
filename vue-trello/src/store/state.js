@@ -1,7 +1,11 @@
 const state = {
         isAddBoard : false,
         boards : [],
-        token : null
+        token : null,
+        board: {
+            lists : []
+        },
+        card : {}
 }
 
 export default state
