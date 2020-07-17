@@ -1,0 +1,49 @@
+<template>
+    <div class="cardItem">
+        <div>{{data.title}}</div>
+        <div class="cardItemMeta" v-if="data.description">&equiv;</div>
+    </div>
+</template>
+
+<script>
+export default {
+    
+}
+</script>
+
+<style>
+.cardItem {
+  background-color: #fff;
+  border-radius: 3px;
+  margin: 8px;
+  padding: 6px 20px 2px 8px;
+  box-shadow: 0 1px 0 #ccc;
+  position: relative;
+}
+.cardItem a {
+  text-decoration: none;
+  color: #444;
+  word-wrap: break-word;
+  white-space: normal;
+  overflow: hidden;
+  display: block;
+}
+.cardItem:hover,
+.cardItem:focus {
+  background-color: rgba(0,0,0, .1);
+  cursor: pointer;
+}
+.cardItemMeta {
+  font-size: 26px;
+  padding: 5px 0 0 3px;
+  color: #8c8c8c;  
+}
+.deleteCardBtn {
+  position: absolute;
+  right: 10px;
+  top: 4px;
+  text-decoration: none;
+  font-size: 18px;
+  color: #aaa;
+}
+</style>
