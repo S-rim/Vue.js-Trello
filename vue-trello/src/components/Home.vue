@@ -15,7 +15,7 @@
                 </a>
             </div>
         </div>
-        <AddBoard v-if="isAddBoard"></AddBoard>
+        <add-board v-if="isAddBoard"></add-board>
   </div>
 </template>
 

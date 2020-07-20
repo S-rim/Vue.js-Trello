@@ -6,10 +6,10 @@
         </div>
     </div>
     <div class="cardList">
-        <card-item v-for="card in data.cards" :key="card.id" :data="card"></card-item>
+        <card-item v-for="card in data.cards" :key="`${card.id}`" :data="card"></card-item>
     </div>
     <div v-if="isAddCard">
-        <add-card :list-id="data.list" @close="isAddCard=false"></add-card>
+        <add-card :list-id="data.id" @close="isAddCard=false"></add-card>
     </div>
     <div v-else>
         <a class="addCardBtn" href="" @click.prevent="isAddCard=true">+ Add a card...</a>
