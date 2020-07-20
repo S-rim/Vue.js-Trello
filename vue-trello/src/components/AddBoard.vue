@@ -8,7 +8,7 @@
             </h2>
         </div>
         <div slot="body">
-            <form id="addBoardForm" @submit.prevent="addBoard">
+            <form id="addBoardForm" @submit.prevent="onSubmitAddBoard">
                 <input class="form-control" type="text" v-model="input" ref="input">
             </form>
         </div>
@@ -47,12 +47,19 @@ export default {
             'ADD_BOARD',
             'FETCH_BOARDS'
         ]),
-        addBoard() {
-            this.SET_IS_ADD_BOARD(false)
-            this.$emit('submit');
-            this.ADD_BOARD({title : this.input}).then(() => {
-                this.FETCH_BOARDS()
-            })
+        // addBoard() {
+        //     this.SET_IS_ADD_BOARD(false)
+        //     this.ADD_BOARD({title : this.input}).then(({id}) => {
+        //         this.$router.push(`/b/${id}`)
+        //         this.FETCH_BOARDS()
+        //     })
+        // }
+        onSubmitAddBoard() {
+            if (!this.input.trim()) return 
+            this.ADD_BOARD(this.input)
+                .then(id => this.$router.push(`/board/${id}`))
+                .catch(err => console.log(err))
+                .finally(()=> (this.SET_IS_ADD_BOARD(false)))
         }
     }
 }
