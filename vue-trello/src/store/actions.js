@@ -34,9 +34,13 @@ const actions = {
             commit('SET_CARD', data.item)
         })
     },
-    UPDATE_CARD({dispatch, state}, {id, title, description, pos, listId}) {
-        return list.card.update(id, {title, description, pos, listId})
-        .then(() => dispatch('FETCH_BOARD', {id : state.board.id}))
+    UPDATE_CARD({ state, dispatch }, {id, pos, title, description, listId}) {
+        return card.update(id, { pos, title, description, listId})
+          .then(_ => dispatch('FETCH_BOARD', {id : state.board.id}))
+    },
+    DELETE_CARD({dispatch, state}, {id}) {
+        return card.destroy(id)
+        .then(_ => dispatch('FETCH_BOARD', {id : state.board.id}))
     }
 }
 

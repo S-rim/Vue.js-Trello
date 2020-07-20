@@ -4,7 +4,7 @@ import router from '../router'
 const domain = 'http://localhost:3000'
 const Unauthorized = 401
 const onUnauthorized = () => {
-    router.push('/login')
+    router.push(`/login?returnPath=${encodeURIComponent(location.pathname)}`)
 }
 
 const request = {
@@ -69,9 +69,29 @@ export const auth = {
     }
   }
 
-export const card = {
-    create(title,listId, pos) {
-        return request.post ('/cards', {title,listId, pos})
-        .then(({data}) => data)
+  export const list = {
+    create(data) {
+      return request.post(`/lists`, data)
+    },
+    update(id, data) {
+      return request.put(`/lists/${id}`, data).then(({ data }) => data)
+    },
+    destroy(id) {
+      return request.delete(`/lists/${id}`).then(({ data }) => data)
     }
-}
+  }
+
+  export const card = {
+    fetch(id) {
+      return request.get(`/cards/${id}`).then(({ data }) => data)
+    },
+    create(title, listId, pos) {
+      return request.post(`/cards`, {title, listId, pos}).then(({ data }) => data)
+    },
+    update(id, data) {
+      return request.put(`/cards/${id}`, data).then(({ data }) => data)
+    },
+    destroy(id) {
+      return request.delete(`/cards/${id}`)
+    }
+  }
