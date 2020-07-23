@@ -4,7 +4,7 @@
       <div class="modalCardHeaderTitle">
         <input class="form-control" type="text" ref="inputTitle" :value="card.title" :readonly="toggleTitle" @click="toggleTitle=true" @blur="onBlurTitle">
       </div>
-      <a class="modalCloseBtn" href="" @click.prevent="onClose">&times;</a>
+      <a class="modalCloseBtn" href="" @click.prevent="onClose">X</a>
     </div>
     <div slot="body">
       <h3>Description</h3>
@@ -55,7 +55,7 @@ export default {
             .then(() => this.fetchCard())
         },
         onBlurDesc() {
-            thie.toggleDesc = false
+            this.toggleDesc = false
             const description = this.$refs.inputDesc.value.trim()
             if(!description) return
             this.UPDATE_CARD({id : this.card.id, description})

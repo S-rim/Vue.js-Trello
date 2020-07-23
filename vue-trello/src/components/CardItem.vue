@@ -1,6 +1,6 @@
 <template>
     <div class="cardItem" :data-card-id="data.id" :data-card-pos="data.pos">
-        <router-link to="`/b/${boardId}/c/${data.id}`">
+        <router-link :to="`/b/${data.id}/c/${data.id}`">
             <div>{{data.title}}</div>
             <div class="cardItemMeta" v-if="data.description">&equiv;</div>
         </router-link>
@@ -22,7 +22,7 @@ export default {
             'DELETE_CARD'
         ]),
         onDelete() {
-            if(window.confirm('Delete this card')) return
+            if(!window.confirm('Delete this card')) return
             this.DELETE_CARD({id : this.data.id})
         }
     }
