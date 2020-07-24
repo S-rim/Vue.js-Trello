@@ -1,15 +1,15 @@
 <template>
   <Modal class="modalCard">
-    <div slot="header" class="modalCardHeader">
+    <header slot="header" class="modalCardHeader">
       <div class="modalCardHeaderTitle">
-        <input class="form-control" type="text" ref="inputTitle" :value="card.title" :readonly="toggleTitle" @click="toggleTitle=true" @blur="onBlurTitle">
+        <input class="form-control" type="text" ref="inputTitle" :value="card.title" :readonly="!toggleTitle" @click="toggleTitle=true" @blur="onBlurTitle">
       </div>
       <a class="modalCloseBtn" href="" @click.prevent="onClose">X</a>
-    </div>
-    <div slot="body">
+    </header>
+    <section slot="body">
       <h3>Description</h3>
-      <textarea :readonly="toggleDesc" class="form-control" cols="30" rows="3" placeholder="Add a more detailed description..." ref="inputDesc" @click="toggleDesc=true" @blur="onBlurDesc"></textarea>
-    </div>
+      <textarea :readonly="!toggleDesc" class="form-control" cols="30" rows="3" placeholder="Add a more detailed description..." ref="inputDesc" @click="toggleDesc=true" @blur="onBlurDesc"></textarea>
+    </section>
     <div slot="footer"></div>
   </Modal>  
 </template>
