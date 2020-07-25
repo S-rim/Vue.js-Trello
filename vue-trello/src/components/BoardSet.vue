@@ -1,27 +1,68 @@
 <template>
-  <div class="settings">
+  <aside class="settings">
     <a href="" @click.prevent="onClickClose">X</a>
     <h2>Menu</h2>
-  <div class="boardMenu">
-    <header class="boardMenuHeader">
-      <div class="headerTitle">Menu</div>
-      <a class="headerCloseBtn" href="" @click.prevent="onClickClose">&times;</a>
-    </header>
-    
-    
-  </div>
-  </div>
+    <div class="boardMenu">
+        <header class="boardMenuHeader">
+            <div class="headerTitle">Menu</div>
+            <a class="headerCloseBtn" href="" @click.prevent="onClickClose">&times;</a>
+        </header>
+        <ul class="menuList">
+            <li><a href="" @click.prevent="onClickDeleteBoard">Delete Board</a></li>
+            <li>Change Background</li>
+            <ul>
+                <li><a href="" @click.prevent="onClickChangeColor('rgb(210, 144, 52)')">orange</a></li>
+            </ul>
+            <div class="colorPicker">
+                <a href="" data-value="rgb(0, 121, 191)" @click.prevent="onClickChangeColor"></a>
+                <a href="" data-value="rgb(210, 144, 52)" @click.prevent="onClickChangeColor"></a>
+                <a href="" data-value="rgb(81, 152, 57)" @click.prevent="onClickChangeColor"></a>
+                <a href="" data-value="rgb(176, 70, 50)" @click.prevent="onClickChangeColor"></a>
+            </div>
+        </ul>
+    </div>
+  </aside>
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import {mapMutations,mapActions, mapState} from 'vuex'
 export default {
+    computed : {
+        ...mapState({
+            board : 'board'
+        })
+    },
+    mounted() {
+        Array.from(this.$el.querySelectorAll('.colorPicker a')).forEach(el => {
+            el.style.backgroundColor = el.dataset.value
+        })
+    },
     methods : {
         ...mapMutations([
-            'SET_IS_SHOW_BOARD_SET'
+            'SET_IS_SHOW_BOARD_SET',
+            'SET_THEME'
+        ]),
+        ...mapActions([
+            'DELETE_BOARD',
+            'UPDATE_BOARD'
         ]),
         onClickClose() {
             this.SET_IS_SHOW_BOARD_SET(false)
+        },
+        onClickDeleteBoard()
+        {
+            if(!window.confirm(`Delete this Board?`)) return
+            this.DELETE_BOARD({id : this.board.id})
+            .then(() => this.SET_IS_SHOW_BOARD_SET(false))
+            .then(() => this.$router.push('/'))
+        },
+        onClickChangeColor(el)
+        {
+            const id = this.board.id
+            const bgColor = el.target.dataset.value
+            this.UPDATE_BOARD({id, bgColor})
+            .then(() => this.SET_THEME(bgColor))
+            
         }
     }
 }
@@ -93,6 +134,6 @@ export default {
 .colorPicker a:hover,
 .colorPicker a:focus {
   cursor: pointer;
-  /* background-color: rgba(0,0,0,.9); */
+  background-color: rgba(0,0,0,.9);
 }
 </style>
