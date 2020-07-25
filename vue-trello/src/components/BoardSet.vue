@@ -10,9 +10,7 @@
         <ul class="menuList">
             <li><a href="" @click.prevent="onClickDeleteBoard">Delete Board</a></li>
             <li>Change Background</li>
-            <ul>
-                <li><a href="" @click.prevent="onClickChangeColor('rgb(210, 144, 52)')">orange</a></li>
-            </ul>
+            
             <div class="colorPicker">
                 <a href="" data-value="rgb(0, 121, 191)" @click.prevent="onClickChangeColor"></a>
                 <a href="" data-value="rgb(210, 144, 52)" @click.prevent="onClickChangeColor"></a>

@@ -3,7 +3,9 @@
         <div class="boardWrapper">
             <div class="board">
                 <div class="boardHeader">
-                    <span class="boardTitle">{{board.title}}</span>
+                    <input class="form-control" type="text" v-if="isEditTitle" 
+                    v-model="inputTitle" ref="inputTitle" @blur="onSubmitTitle" @keyup.enter="onSubmitTitle">
+                    <span v-else class="boardTitle" @click="onClickTitle">{{board.title}}</span>
                     <a href="" class="boardHeaderBtn showMenu" @click.prevent="onShowSet">
                         ...Show Menu
                     </a>
@@ -13,6 +15,9 @@
                     <div class="listSection">
                         <div class="listWrapper" v-for="list in board.lists" :key="list.pos">
                             <List :data="list"></List>
+                        </div>
+                        <div class="listWrapper">
+                            <add-list></add-list>
                         </div>
                     </div>
                 </div>
@@ -26,16 +31,19 @@
 <script>
 import {mapState, mapActions, mapMutations} from 'vuex'
 import BoardSet from './BoardSet'
+import AddList from './AddList'
 import List from './List.vue'
 import dragger from '../utils/dragger'
 
 export default {
-    components : {List, BoardSet},
+    components : {List, BoardSet, AddList},
     data() {
         return {
             bid : 0, 
             loading : false,
-            dragger : null
+            dragger : null,
+            isEditTitle : false,
+            inputTitle : ''
         }
     },
     computed : {
@@ -46,6 +54,7 @@ export default {
     },
     created() {
         this.fetchData().then(() => {
+            this.inputTitle = this.board.title
             this.SET_THEME(this.board.bgColor)
         })
         this.SET_IS_SHOW_BOARD_SET(false)
@@ -56,7 +65,8 @@ export default {
     methods : {
         ...mapActions([
             'FETCH_BOARD',
-            'UPDATE_CARD'
+            'UPDATE_CARD',
+            'UPDATE_BOARD'
         ]),
         ...mapMutations([
             'SET_THEME',
@@ -91,6 +101,22 @@ export default {
         onShowSet() 
         {  
             this.SET_IS_SHOW_BOARD_SET(true)
+        },
+        onClickTitle()
+        {
+            this.isEditTitle = true
+            this.$nextTick(() => this.$refs.inputTitle.focus())
+        },
+        onSubmitTitle() 
+        {
+            this.isEditTitle = false
+            this.inputTitle = this.inputTitle.trim()
+            if(!this.inputTitle) return
+            const id = this.board.id
+            const title = this.inputTitle
+            if(title == this.board.title) return
+
+            this.UPDATE_BOARD({id, title})
         }
     }
 }
