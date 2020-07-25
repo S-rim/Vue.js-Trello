@@ -4,7 +4,11 @@
             <div class="board">
                 <div class="boardHeader">
                     <span class="boardTitle">{{board.title}}</span>
+                    <a href="" class="boardHeaderBtn showMenu" @click.prevent="onShowSet">
+                        ...Show Menu
+                    </a>
                 </div>
+
                 <div class="listSectionWrapper">
                     <div class="listSection">
                         <div class="listWrapper" v-for="list in board.lists" :key="list.pos">
@@ -14,17 +18,19 @@
                 </div>
             </div>
         </div>
+        <board-set v-if="isShowBoardSet"></board-set>
         <router-view></router-view>
     </div>
 </template>
 
 <script>
 import {mapState, mapActions, mapMutations} from 'vuex'
+import BoardSet from './BoardSet'
 import List from './List.vue'
 import dragger from '../utils/dragger'
 
 export default {
-    components : {List},
+    components : {List, BoardSet},
     data() {
         return {
             bid : 0, 
@@ -34,14 +40,15 @@ export default {
     },
     computed : {
         ...mapState({
-            board : 'board'
+            board : 'board',
+            isShowBoardSet : 'isShowBoardSet'
         })
     },
     created() {
         this.fetchData().then(() => {
             this.SET_THEME(this.board.bgColor)
         })
-        
+        this.SET_IS_SHOW_BOARD_SET(false)
     },
     updated() {
         this.setCardDragabble();
@@ -52,7 +59,8 @@ export default {
             'UPDATE_CARD'
         ]),
         ...mapMutations([
-            'SET_THEME'
+            'SET_THEME',
+            'SET_IS_SHOW_BOARD_SET'
         ]),
         fetchData() {
             this.loading = true
@@ -79,6 +87,10 @@ export default {
                 else if(prev && next) targetCard.pos = (prev.pos + next.pos) /2
                 this.UPDATE_CARD(targetCard)
             })
+        },
+        onShowSet() 
+        {  
+            this.SET_IS_SHOW_BOARD_SET(true)
         }
     }
 }

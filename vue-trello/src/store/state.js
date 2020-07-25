@@ -7,7 +7,8 @@ const state = {
         },
         card : {},
         bodyColor : '#ffffff',
-        navbarColor : '#026aa7'
+        navbarColor : '#026aa7',
+        isShowBoardSet : false
 }
 
 export default state

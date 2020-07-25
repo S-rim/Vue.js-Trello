@@ -25,12 +25,18 @@ const mutations = {
         delete localStorage.token
         setAuthInHeader(null)
     },
-    SET_CARD(state, card) {
+    SET_CARD(state, card) 
+    {
         state.card = card
     },
-    SET_THEME(state, color) {
+    SET_THEME(state, color) 
+    {
         state.bodyColor = color || '#ffffff'
         state.navbarColor = color ? 'rgba(0,0,0,.15)' : '#026aa7' 
+    },
+    SET_IS_SHOW_BOARD_SET (state, toggle)
+    {
+        state.isShowBoardSet = toggle
     }
 }
 
