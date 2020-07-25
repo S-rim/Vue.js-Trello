@@ -1,9 +1,12 @@
 <template>
   <div class="list">
     <div class="listHeader">
-        <div class="listHeaderTitle">
+        <input v-if="isEditTitle" type="text" class="form-control inpuTitle" ref="inputTitle" 
+        v-model="inputTitle" @blur="onBlurTitle" @keyup.enter="onSubmitTitle">
+        <div v-else class="listHeaderTitle" @click="onClickTitle">
             {{data.title}}
         </div>
+        <a href="" class="deleteListBtn" @click.prevent="onDeleteList">X</a>
     </div>
     <div class="cardList">
         <card-item v-for="card in data.cards" :key="`${card.id}`" :data="card"></card-item>
@@ -21,6 +24,7 @@
 import {card} from '../api'
 import CardItem from './CardItem.vue'
 import AddCard from './AddCard'
+import {mapActions} from 'vuex'
 export default {
   components: {AddCard, CardItem},
   props: [
@@ -29,8 +33,13 @@ export default {
   data() {
     return {
       inputCardTitle: '',
-      isAddCard: false
+      isAddCard: false,
+      isEditTitle : false,
+      inputTitle : ''
     }
+  },
+  created() {
+      this.inputTitle = this.data.title
   },
   computed: {
     invalidInput() {
@@ -38,6 +47,10 @@ export default {
     }
   },
   methods: {
+    ...mapActions([
+        'UPDATE_LIST',
+        'DELETE_LIST'
+    ]),
     onClickAddCard() {
       this.isAddCard = true
       setTimeout(_=> this.$refs.inputCardTitle.focus(), 1)
@@ -57,6 +70,28 @@ export default {
         this.isAddCard = false
       })
     },
+    onClickTitle() {
+        this.isEditTitle = true
+        this.$nextTick(() => this.$refs.inputTitle.focus())
+    },
+    onBlurTitle() {
+        this.isEditTitle = false
+    },
+    onSubmitTitle() {
+        this.isEditTitle = false
+        this.inputTitle = this.inputTitle.trim()
+        if(!this.inputTitle) return
+
+        const id = this.data.id
+        const title = this.inputTitle
+        if(title == this.data.title) return
+
+        this.UPDATE_LIST({id, title})
+    },
+    onDeleteList() {
+        if(!window.confirm(`Delete ${this.data.title} list?`)) return
+        this.DELETE_LIST({id : this.data.title})
+    }
   }
 }
 </script>
