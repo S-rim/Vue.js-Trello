@@ -1,7 +1,5 @@
 <template>
   <aside class="settings">
-    <a href="" @click.prevent="onClickClose">X</a>
-    <h2>Menu</h2>
     <div class="boardMenu">
         <header class="boardMenuHeader">
             <div class="headerTitle">Menu</div>
