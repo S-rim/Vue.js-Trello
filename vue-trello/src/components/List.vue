@@ -1,5 +1,5 @@
 <template>
-  <div class="list">
+  <div class="list" :data-list-id="data.id" :data-list-pos="data.pos">
     <div class="listHeader">
         <input v-if="isEditTitle" type="text" class="form-control inpuTitle" ref="inputTitle" 
         v-model="inputTitle" @blur="onBlurTitle" @keyup.enter="onSubmitTitle">

@@ -13,7 +13,7 @@
 
                 <div class="listSectionWrapper">
                     <div class="listSection">
-                        <div class="listWrapper" v-for="list in board.lists" :key="list.pos">
+                        <div class="listWrapper" v-for="list in board.lists" :key="list.pos" :data-list-id="list.id">
                             <List :data="list"></List>
                         </div>
                         <div class="listWrapper">
@@ -41,9 +41,10 @@ export default {
         return {
             bid : 0, 
             loading : false,
-            dragger : null,
+            cDragger : null,
             isEditTitle : false,
-            inputTitle : ''
+            inputTitle : '',
+            lDragger : null
         }
     },
     computed : {
@@ -61,12 +62,14 @@ export default {
     },
     updated() {
         this.setCardDragabble();
+        this.setListDragabble();
     },
     methods : {
         ...mapActions([
             'FETCH_BOARD',
             'UPDATE_CARD',
-            'UPDATE_BOARD'
+            'UPDATE_BOARD',
+            'UPDATE_LIST'
         ]),
         ...mapMutations([
             'SET_THEME',
@@ -78,12 +81,13 @@ export default {
             .then(() => this.loading = false)
         },
         setCardDragabble() {
-            if(this.dragger) this.dragger.destroy()
-            this.dragger = dragger.init(Array.from(this.$el.querySelectorAll('.cardList')))
+            if(this.cDragger) this.cDragger.destroy()
+            this.cDragger = dragger.init(Array.from(this.$el.querySelectorAll('.cardList')))
 
-            this.dragger.on('drop', (el, wrapper, target, siblings) => {
+            this.cDragger.on('drop', (el, wrapper, target, siblings) => {
             const targetCard = {
                 id: el.dataset.cardId * 1,
+                listId: wrapper.dataset.listId * 1,
                 pos : 65535
             }
             const {prev, next} = dragger.sibling({
@@ -96,6 +100,31 @@ export default {
                 else if(!next && prev) targetCard.pos = prev.pos * 2
                 else if(prev && next) targetCard.pos = (prev.pos + next.pos) /2
                 this.UPDATE_CARD(targetCard)
+            })
+        },
+        setListDragabble()
+        {
+            if(this.lDragger) this.lDragger.destroy()
+            this.lDragger = dragger.init(Array.from(this.$el.querySelectorAll('.listSection')))
+            // const options = {
+            //     invalid : (el, handle) => !/^list/.test(handle.className)
+            // }
+
+            this.lDragger.on('drop', (el, wrapper, target, siblings) => {
+            const targetList = {
+                id: el.dataset.listId * 1,
+                pos : 65535
+            }
+            const {prev, next} = dragger.sibling({
+                el, 
+                wrapper, 
+                candidates : Array.from(wrapper.querySelectorAll('.listHeader')), 
+                type : 'list'
+            })
+                if(!prev && next) targetList.pos = next.pos / 2
+                else if(!next && prev) targetList.pos = prev.pos * 2
+                else if(prev && next) targetList.pos = (prev.pos + next.pos) /2
+                this.UPDATE_LIST(targetList)
             })
         },
         onShowSet() 
