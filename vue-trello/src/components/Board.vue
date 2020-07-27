@@ -13,7 +13,7 @@
 
                 <div class="listSectionWrapper">
                     <div class="listSection">
-                        <div class="listWrapper" v-for="list in board.lists" :key="list.pos" :data-list-id="list.id">
+                        <div class="listWrapper" v-for="(list, index) in board.lists" :key="index" :data-list-id="list.id">
                             <List :data="list"></List>
                         </div>
                         <div class="listWrapper">
