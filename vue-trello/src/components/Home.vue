@@ -5,7 +5,7 @@
         <div class="boardList" ref="boardList">
             <div class="boardItem" v-for="bd in boards" :key="bd.id" :data-bgcolor="bd.bgColor" ref="boardItem">
                 <router-link :to="`/b/${bd.id}`">
-                <div class="boardItemTitle">{{bd.title}}</div>
+                <h1 class="boardItemTitle">{{bd.title}}</h1>
                 </router-link>
             </div>
 

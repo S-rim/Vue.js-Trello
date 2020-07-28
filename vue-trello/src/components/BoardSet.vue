@@ -14,6 +14,10 @@
                 <a href="" data-value="rgb(210, 144, 52)" @click.prevent="onClickChangeColor"></a>
                 <a href="" data-value="rgb(81, 152, 57)" @click.prevent="onClickChangeColor"></a>
                 <a href="" data-value="rgb(176, 70, 50)" @click.prevent="onClickChangeColor"></a>
+                <a href="" data-value="rgb(137, 96, 158)" @click.prevent="onClickChangeColor"></a>
+                <a href="" data-value="rgb(0, 174, 204)" @click.prevent="onClickChangeColor"></a>
+                <a href="" data-value="rgb(205, 90, 145)" @click.prevent="onClickChangeColor"></a>
+                <a href="" data-value="rgb(131, 140, 145)" @click.prevent="onClickChangeColor"></a>
             </div>
         </ul>
     </div>
